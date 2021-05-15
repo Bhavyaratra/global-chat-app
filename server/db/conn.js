@@ -3,7 +3,7 @@ const dotenv=require('dotenv');
 dotenv.config();
 
 const db= process.env.dbURI;
-console.log(db);
+
 mongoose.connect(db,{
         useNewUrlParser: true,
         useCreateIndex: true,
