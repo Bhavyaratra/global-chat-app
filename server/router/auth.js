@@ -19,4 +19,12 @@ passport.authenticate( 'google', {
     res.redirect('http://localhost:3000/');
   });
 
+// @desc    logout user
+// @route   GET /auth/logout
+router.get('/logout',(req,res)=>{
+    req.logout() //*passport middleware
+    res.redirect('http://localhost:3000/login')
+})
+  
+
 module.exports = router;
