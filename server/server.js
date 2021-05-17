@@ -25,10 +25,10 @@ app.use(session({
     secret: 'globalchatapp',
     resave: false,
     saveUninitialized: false,
-    //stor
+   //store cookie
 }))
 
-//passport middleware
+//*passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
 

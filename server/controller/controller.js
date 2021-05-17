@@ -5,13 +5,25 @@ const start=(req,res)=>{
 }
 
 const getAllMsgs=(req,res)=>{
-    messages.find().Sort({createdAt: -1})
+    messages.find()
     .then((result)=>{
-        res.json(result);
+        res.status(200).json(result);
     })
     .catch((err)=>{
         res.status(400).send(err);
     })
 }
 
-module.exports={start,getAllMsgs};
+const postMsg=async (req,res)=>{
+    const newMsg = new messages(req.body);
+    try{
+        await newMsg.save();
+        console.log("new msg")
+    }catch(err){
+        console.log(err);
+    }
+}
+
+module.exports={start,getAllMsgs,
+                postMsg,
+                };

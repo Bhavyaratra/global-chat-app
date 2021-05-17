@@ -1,13 +1,17 @@
 const mongoose = require('mongoose');
 
 const messageSchema = new mongoose.Schema({
-    msg:{
+    txt:{
         type:String,
         required:true
     },
     userID:{
         type:String,
         required:true
+    },
+    username:{
+        type: String,
+        required: true
     }
 },{timestamps: true});
 

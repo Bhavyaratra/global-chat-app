@@ -6,4 +6,6 @@ router.get('/',Controller.start);
 
 router.get('/allmsgs',Controller.getAllMsgs);
 
+router.post('/newmsg',Controller.postMsg);
+
 module.exports= router;
