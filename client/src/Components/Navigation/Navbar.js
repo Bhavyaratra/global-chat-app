@@ -7,6 +7,7 @@ import {makeStyles} from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme)=>({
     navbar: {
+            display:'flex',
             justifyContent: 'center',
     },
     bar: {
@@ -14,7 +15,8 @@ const useStyles = makeStyles((theme)=>({
         maxHeight: '8hv',
     },
     barButton: {
-        float:'right',
+        marginLeft:'625%',
+        alignSelf:'flex-end',
         backgroundColor: 'rgb(208, 0, 0)',
         color:'white',
         
