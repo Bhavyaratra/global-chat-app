@@ -12,7 +12,10 @@ const messageSchema = new mongoose.Schema({
     username:{
         type: String,
         required: true
-    }
+    },
+    photo:{
+        type:String,
+    },
 },{timestamps: true});
 
 const messages = mongoose.model('message',messageSchema);

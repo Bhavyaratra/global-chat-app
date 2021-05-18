@@ -3,67 +3,12 @@ import Navbar from './Navigation/Navbar';
 import {useState,useEffect} from 'react';
 import{useHistory} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import { FormHelperText } from '@material-ui/core';
+import {useStyles} from '../styles/style.js';
 
-const useStyles = makeStyles(()=>({
-    title:{
-        color:"#dee3ea",
-        fontSize: 'large'
-    },
-    name:{
-        color: '#dee3ea'
-    },
-    input:{
-        
-        outline: 'none',
-        resize: 'none',
-        fontFamily: 'calibri',
-        fontSize: 'medium',
-        fontWeight: 'bold',
-        width: '70%'
-    },
-    submit:{
-        background: '#fd4d4d',
-        color:'black',
-        '&:hover': {
-            
-            background: '#57f207'
-        }
-    },
-    inputArea:{
-        position: 'absolute',
-        bottom: '0',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '70%'
-    },
-    msg:{
-         marginTop:'10vh',
-        maxHeight:'70vh',
-        color:"#79E9DE",
-        display:'flex',
-        flexDirection:'column',
-        justifyContent:'center',
-        alignItems: 'center',
-        overflowY:'auto'
-    },
-    paper:{
-        marginBottom:'5px',
-        padding: '10px',
-        width: '70%'
-    },
-    username:{
-        background:'black',
-        color:'white'
-    }
-
-}))
 
 export default function Home(){
 
@@ -71,6 +16,7 @@ export default function Home(){
     const history =useHistory();
     const [name,setName]= useState([]);
     const [userId,setUserId]= useState([]);
+    const [userImage,setUserImage]= useState([]);
     const [newMsg,newMsgData] = useState({});
 
     const [msgData,setMsgData] = useState([]);
@@ -86,6 +32,7 @@ export default function Home(){
         }).then(result=>{
             setName(result.user.firstName);
             setUserId(result.user.googleId);
+            setUserImage(result.user.image);
         }).catch(err=>{
             console.log(err);
             history.push("/login");
@@ -112,6 +59,7 @@ export default function Home(){
                 txt: newMsg.txt,
                 username: newMsg.username,
                 userID: newMsg.userId,
+                photo: userImage
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -137,6 +85,23 @@ export default function Home(){
         apiPost();
     }
 
+    function ChatMessage(props){
+        const message = props.message;
+        const messageClass = userId===message.userID ? classes.sent : classes.recieved; 
+       return (
+       <>
+       {/* <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/> */}
+        <Paper className={`${messageClass}`}>
+         
+            <div className={classes.username}>
+                { <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/>}
+            </div> 
+                {message.txt}
+        </Paper> 
+       </>
+       )
+    }
+
     return(
     <div>
         <Navbar/>
@@ -144,9 +109,7 @@ export default function Home(){
        
         <div className={classes.msg}>
         {msgData.map((chat)=>(
-               <Paper className={classes.paper}>
-                   <div className={classes.username}>{chat.username}:</div> {chat.txt}
-                   </Paper> 
+                 <ChatMessage message={chat}/>
                ))}
         </div>
         
