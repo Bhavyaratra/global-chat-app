@@ -7,6 +7,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
+import Paper from '@material-ui/core/Paper';
+import { FormHelperText } from '@material-ui/core';
 
 const useStyles = makeStyles(()=>({
     title:{
@@ -34,16 +36,33 @@ const useStyles = makeStyles(()=>({
         }
     },
     inputArea:{
-
+        position: 'absolute',
+        bottom: '0',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-
+        width: '70%'
     },
     msg:{
+         marginTop:'10vh',
+        maxHeight:'70vh',
         color:"#79E9DE",
-        justifyContent:'right'
+        display:'flex',
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems: 'center',
+        overflowY:'auto'
+    },
+    paper:{
+        marginBottom:'5px',
+        padding: '10px',
+        width: '70%'
+    },
+    username:{
+        background:'black',
+        color:'white'
     }
+
 }))
 
 export default function Home(){
@@ -123,11 +142,13 @@ export default function Home(){
         <Navbar/>
         <Typography className={classes.title}>Welcome! {name}</Typography>
        
+        <div className={classes.msg}>
         {msgData.map((chat)=>(
-            <div className={classes.msg}>
-               <Typography>{chat.username}: {chat.txt}</Typography> 
-            </div>
-        ))}
+               <Paper className={classes.paper}>
+                   <div className={classes.username}>{chat.username}:</div> {chat.txt}
+                   </Paper> 
+               ))}
+        </div>
         
         <div className={classes.inputArea}>
         <TextareaAutosize
