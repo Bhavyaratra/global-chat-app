@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './Navigation/Navbar';
-import {useState,useEffect} from 'react';
+import {useState,useEffect,useRef} from 'react';
 import{useHistory} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
@@ -20,7 +20,8 @@ export default function Home(){
     const [newMsg,newMsgData] = useState({});
 
     const [msgData,setMsgData] = useState([]);
-    
+    const dummy = useRef();
+
     useEffect(()=>{
         fetch('/auth/isauth').then(res=>{
             if(res.status===200){
@@ -47,7 +48,8 @@ export default function Home(){
             }
         })
         .then((result)=>{
-            setMsgData(result)
+            setMsgData(result);
+            
         })
     })
 
@@ -80,12 +82,10 @@ export default function Home(){
         })
     }
     
-    function handleSubmit(){
-        console.log(newMsg);
-        apiPost();
-    }
+  
 
     function ChatMessage(props){
+        
         const message = props.message;
         const messageClass = userId===message.userID ? classes.sent : classes.recieved; 
        return (
@@ -102,6 +102,12 @@ export default function Home(){
        )
     }
 
+    function handleSubmit(){
+        console.log(newMsg);
+        apiPost();
+        
+    }
+
     return(
     <div>
         <Navbar/>
@@ -111,6 +117,8 @@ export default function Home(){
         {msgData.map((chat)=>(
                  <ChatMessage message={chat}/>
                ))}
+
+        <span ref={dummy}></span>
         </div>
         
         <div className={classes.inputArea}>
