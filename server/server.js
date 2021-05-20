@@ -2,12 +2,14 @@ const express = require('express');
 const routes = require('./router/router');
 const passport = require('passport');
 const session=require('express-session')
+const MongoStore = require('connect-mongo')
+const mongoose = require('mongoose')
 
 // Passport config
 require('./db/passport')(passport)
 
 const app = express();
-const port= process.env.PORT|| 3001;
+const port= 3001;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -25,7 +27,7 @@ app.use(session({
     secret: 'globalchatapp',
     resave: false,
     saveUninitialized: false,
-   //store cookie
+    store: MongoStore.create({ mongoUrl: process.env.dbURI})
 }))
 
 //*passport middleware

@@ -25,6 +25,8 @@ passport.authenticate( 'google', {
 // @route   GET /auth/logout
 router.get('/logout',(req,res)=>{
     req.logout() //*passport middleware
+    req.session.destroy()
+		res.clearCookie('connect.sid')
     res.redirect(`${CLIENT_HOME_PAGE_URL}/login`)
 });
 
@@ -38,11 +40,16 @@ router.get('/login/failed',(req,res)=>{
 });
 
 router.get('/isauth',ensureAuth,(req,res)=>{
-  //console.log("isauth called")
+  console.log("isauth called")
   user=req.user
+  console.log(user)
   res.status(200).json({
     user
   })
+})
+
+router.get('/user',(req,res)=>{
+  const user=1;
 })
 
 

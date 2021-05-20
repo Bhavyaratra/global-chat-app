@@ -38,18 +38,19 @@ import {makeStyles} from '@material-ui/core/styles';
         
     },
     msg:{
-        
+        width:'100%',
+        height:'100vh',
         maxHeight:'70vh',
         margin:'0 auto',
         color:"#79E9DE",
         display:'flex',
         flexDirection:'column',
-        justifyContent:'space-between',
         alignItems: 'right',
         padding:'10px 0',
         overflowY:'auto',
         background:'#161b22',
-        fontSize:'large'
+        fontSize:'large',
+    
     },
     username:{
       
