@@ -8,7 +8,8 @@ import SendIcon from '@material-ui/icons/Send';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
 import {useStyles} from '../styles/style.js';
-
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://localhost:3000";
 
 export default function Home(){
 
@@ -18,10 +19,24 @@ export default function Home(){
     const [userId,setUserId]= useState([]);
     const [userImage,setUserImage]= useState([]);
     const [newMsg,newMsgData] = useState({});
-
     const [msgData,setMsgData] = useState([]);
     const dummy = useRef();
 
+    const [response, setResponse] = useState("");
+    const [newm, setnm] = useState("");
+
+    useEffect(() => {
+        const socket = socketIOClient(ENDPOINT);
+        socket.on("FromAPI", data => {
+          setResponse(data);
+        });
+        socket.on("newmessage", nm => {
+          setnm(nm);
+          dummy.scrollIntoView({ behavior: 'smooth' });
+        });
+
+      }, []);
+     
     useEffect(()=>{
         fetch('/auth/isauth').then(res=>{
             if(res.status===200){
@@ -92,9 +107,9 @@ export default function Home(){
        <>
        {/* <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/> */}
         <Paper className={`${messageClass}`}>
+                { <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/>}
          
             <div className={classes.username}>
-                { <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/>}
             </div> 
                 {message.txt}
         </Paper> 
@@ -111,8 +126,9 @@ export default function Home(){
     return(
     <div>
         <Navbar/>
-        <Typography className={classes.title}>Welcome! {name}</Typography>
-       
+        <Typography className={classes.title}>Welcome! {name}
+        </Typography>
+        
         <div className={classes.msg}>
         {msgData.map((chat)=>(
                  <ChatMessage message={chat}/>

@@ -40,9 +40,8 @@ router.get('/login/failed',(req,res)=>{
 });
 
 router.get('/isauth',ensureAuth,(req,res)=>{
-  console.log("isauth called")
+  // console.log("isauth called")
   user=req.user
-  console.log(user)
   res.status(200).json({
     user
   })

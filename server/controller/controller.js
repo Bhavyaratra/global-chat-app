@@ -14,16 +14,8 @@ const getAllMsgs=(req,res)=>{
     })
 }
 
-const postMsg=async (req,res)=>{
-    const newMsg = new messages(req.body);
-    try{
-        await newMsg.save();
-        console.log("new msg")
-    }catch(err){
-        console.log(err);
-    }
-}
+
 
 module.exports={start,getAllMsgs,
-                postMsg,
+              
                 };
