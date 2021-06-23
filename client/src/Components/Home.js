@@ -20,7 +20,6 @@ export default function Home(){
     const [userImage,setUserImage]= useState([]);
     const [newMsg,newMsgData] = useState({});
     const [msgData,setMsgData] = useState([]);
-    const dummy = useRef();
 
     const [response, setResponse] = useState("");
     const [newm, setnm] = useState("");
@@ -32,7 +31,7 @@ export default function Home(){
         });
         socket.on("newmessage", nm => {
           setnm(nm);
-          dummy.scrollIntoView({ behavior: 'smooth' });
+          
         });
 
       }, []);
@@ -53,7 +52,7 @@ export default function Home(){
             console.log(err);
             history.push("/login");
         })
-    });
+    },[]);
 
     useEffect(()=>{
         fetch('/api/allmsgs')
@@ -66,7 +65,7 @@ export default function Home(){
             setMsgData(result);
             
         })
-    })
+    },[newm])
 
     async function apiPost(){
         try{ 
@@ -76,7 +75,7 @@ export default function Home(){
                 txt: newMsg.txt,
                 username: newMsg.username,
                 userID: newMsg.userId,
-                photo: userImage
+                photo: newMsg.photo
             }),
             headers: {
                 "Content-type": "application/json; charset=UTF-8",
@@ -94,6 +93,7 @@ export default function Home(){
             txt: e.target.value,
             username: name,
             userId: userId,
+            photo: userImage
         })
     }
     
@@ -107,7 +107,7 @@ export default function Home(){
        <>
        {/* <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/> */}
         <Paper className={`${messageClass}`}>
-                { <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt='O'/>}
+                { <img className={classes.img} src={message.photo || 'https://api.adorable.io/avatars/23/abott@adorable.png'} alt=''/>}
          
             <div className={classes.username}>
             </div> 
@@ -120,7 +120,6 @@ export default function Home(){
     function handleSubmit(){
         console.log(newMsg);
         apiPost();
-        
     }
 
     return(
@@ -134,7 +133,6 @@ export default function Home(){
                  <ChatMessage message={chat}/>
                ))}
 
-        <span ref={dummy}></span>
         </div>
         
         <div className={classes.inputArea}>
